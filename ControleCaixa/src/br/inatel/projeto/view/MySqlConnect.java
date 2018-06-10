@@ -16,7 +16,7 @@ public class MySqlConnect {
     public static Connection ConnectDB() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/estoque", "root", "root");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/estoque", "root", "ensleyn");
             JOptionPane.showMessageDialog(null, "Connected to Database");
             return conn;
         }catch(Exception e) {
