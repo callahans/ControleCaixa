@@ -5,11 +5,6 @@
  */
 package br.inatel.projeto.view;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -17,10 +12,9 @@ import javax.swing.JOptionPane;
 import br.inatel.projeto.model.Gasto;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import static javax.swing.JOptionPane.ERROR_MESSAGE;
 
 import java.sql.*;
-import javax.swing.*;
+
 
 /**
  *
@@ -31,7 +25,7 @@ public class ControleFrame extends javax.swing.JFrame
 
     Connection conn = null;
     PreparedStatement pst = null;
-    int rs = 0; 
+    ResultSet rs = null; 
    
     float total = 0;
     private List<Gasto> gastos = new ArrayList<>();
@@ -325,7 +319,7 @@ public class ControleFrame extends javax.swing.JFrame
             pst.setString(5, txtQuantidade.getText());
             pst.setString(6, txtValor.getText());
             pst.setString(7, txtPagamento.getText());
-            rs = pst.executeUpdate();
+            pst.executeUpdate();
             /*if(rs.next()) {
                 JOptionPane.showMessageDialog(null, "Componente adicionado com sucesso!");
             }
