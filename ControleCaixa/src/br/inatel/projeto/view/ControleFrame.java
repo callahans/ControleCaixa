@@ -5,11 +5,8 @@
  */
 package br.inatel.projeto.view;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.DefaultListModel;
+import br.inatel.projeto.model.MySqlConnect;
 import javax.swing.JOptionPane;
-import br.inatel.projeto.model.Gasto;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -28,9 +25,6 @@ public class ControleFrame extends javax.swing.JFrame
     ResultSet rs = null; 
    
     float total = 0;
-    private List<Gasto> gastos = new ArrayList<>();
-
-    private DefaultListModel dlm = new DefaultListModel();
 
     public ControleFrame()
     {
@@ -282,6 +276,8 @@ public class ControleFrame extends javax.swing.JFrame
             pst.setString(7, txtPagamento.getText());
             pst.executeUpdate();
             
+            JOptionPane.showMessageDialog(null, "Componente adicionado com sucesso!");
+            
         } catch(Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -316,12 +312,6 @@ public class ControleFrame extends javax.swing.JFrame
             
             JOptionPane.showMessageDialog(null, "Componente atualizado com sucesso!");
             
-            /*if(rs.next()) {
-                JOptionPane.showMessageDialog(null, "Componente adicionado com sucesso!");
-            }
-            else {
-                JOptionPane.showMessageDialog(null, "Campo(s) inválido(s)", "Failed Operation", JOptionPane.ERROR_MESSAGE);
-            }*/
         } catch(Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -340,12 +330,6 @@ public class ControleFrame extends javax.swing.JFrame
             
             JOptionPane.showMessageDialog(null, "Componente excluído com sucesso!");
             
-            /*if(rs.next()) {
-                JOptionPane.showMessageDialog(null, "Componente adicionado com sucesso!");
-            }
-            else {
-                JOptionPane.showMessageDialog(null, "Campo(s) inválido(s)", "Failed Operation", JOptionPane.ERROR_MESSAGE);
-            }*/
         } catch(Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }

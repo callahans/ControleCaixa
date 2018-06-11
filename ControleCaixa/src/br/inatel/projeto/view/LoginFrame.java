@@ -5,9 +5,10 @@
  */
 package br.inatel.projeto.view;
 
+import br.inatel.projeto.control.LoginAction;
+import br.inatel.projeto.model.MySqlConnect;
 import br.inatel.projeto.view.ControleFrame;
 import javax.swing.JOptionPane;
-import br.inatel.projeto.control.Login;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -23,8 +24,6 @@ public class LoginFrame extends javax.swing.JFrame {
     Connection conn = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
-
-    Login usuario = new Login();
 
     public LoginFrame() {
         initComponents();
@@ -151,49 +150,14 @@ public class LoginFrame extends javax.swing.JFrame {
 
         //Database Login Updated: 22/04/2018
         //Example Login: 'danielsouza' Password: 'senha1234'
-        // variavel para verificar se o login foi encontrado ou não
-        boolean sucesso = false;
-        conn = MySqlConnect.ConnectDB();
-        String Sql = "SELECT * FROM system_user WHERE username=? and passord=?";
-        try {
-            // preparando a consulta
-            pst = conn.prepareStatement(Sql);
-            pst.setString(1, txtLogin.getText());
-            pst.setString(2, txtPassword.getText());
-            // executando a Query e retornando a tabela resultada da busca para RS
-            rs = pst.executeQuery();
-            // enquanto tiver linha na tabela, rs.next() anda de uma em uma linha
-            while (rs.next()) {
-                JOptionPane.showMessageDialog(null, "Bem-vindo!");
-                ControleFrame cf = new ControleFrame();
-                this.setVisible(false);
-                cf.setVisible(true);
-                sucesso = true;
-            }
-           
-        } catch (SQLException e) {
-            System.out.println("Erro: Conexão Banco! :(");
-            sucesso = false;
-        } finally {
-            // independente se deu certo ou não, eu fecho tudo
-               try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (pst != null) {
-                    pst.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println("Erro: Conexão não pode ser fechada! :(");
-            }
-        }
-        // se sucesso = false, mostra essa mensagem para o usuario
-         if (!sucesso) {
-                JOptionPane.showMessageDialog(null, "Invalid username or password", "Access Denied", JOptionPane.ERROR_MESSAGE);
-         }
+        
+        LoginAction FazerLogin = new LoginAction();
+        
+        String usuario = txtLogin.getText();
+        String senha = txtPassword.getText();
+        
+        FazerLogin.RealizaLogin(usuario, senha);
+        
 
     }//GEN-LAST:event_btnLoginActionPerformed
 
