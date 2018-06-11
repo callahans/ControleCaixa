@@ -480,6 +480,13 @@ public class ControleFrame extends javax.swing.JFrame
             while (rs.next()) {
                 int id = rs.getInt("id");
                 sucesso = true;
+                txtCodigo.setText(Integer.toString(rs.getInt("id")));
+                txtInformacoes.setText(rs.getString("info"));
+                txtMarca.setText(rs.getString("produto"));
+                txtProduto.setText(rs.getString("marca"));
+                txtQuantidade.setText(Integer.toString(rs.getInt("quantidade")));
+                txtValor.setText(Float.toString(rs.getFloat("valor")));
+                txtPagamento.setText(Integer.toString(rs.getInt("data_pagamento")));
             }
            
         } catch (SQLException e) {
