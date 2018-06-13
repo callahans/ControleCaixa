@@ -7,6 +7,7 @@ package br.inatel.projeto.control;
 
 import br.inatel.projeto.model.MySqlConnect;
 import br.inatel.projeto.view.ControleFrame;
+import br.inatel.projeto.view.ControleFrame_User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,9 +40,16 @@ public class LoginAction {
             // enquanto tiver linha na tabela, rs.next() anda de uma em uma linha
             while (rs.next()) {
                 JOptionPane.showMessageDialog(null, "Bem-vindo!");
-                ControleFrame cf = new ControleFrame();
-                //this.setVisible(false);
-                cf.setVisible(true);
+                if(rs.getInt(5) == 0) {
+                    ControleFrame cf = new ControleFrame();
+                    cf.setVisible(true);
+                }
+                
+                else {
+                    ControleFrame_User cfU = new ControleFrame_User();
+                    cfU.setVisible(true);
+                }
+                
                 sucesso = true;
             }
            
