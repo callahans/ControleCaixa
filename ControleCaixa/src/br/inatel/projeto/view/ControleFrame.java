@@ -10,7 +10,11 @@ import javax.swing.JOptionPane;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
+import java.sql.CallableStatement;
+
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -241,8 +245,31 @@ public class ControleFrame extends javax.swing.JFrame
     }//GEN-LAST:event_txtCodigoActionPerformed
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
+        conn = MySqlConnect.ConnectDB();
+        
         JOptionPane.showMessageDialog(null, "O Total = R$" + total);
         this.dispose();
+        
+        CallableStatement statement;
+        try {
+            statement = conn.prepareCall("call vvvvintepontoss(?)");
+            statement.setString(1, "danielsouza");
+            //statement.registerOutParameter(1, Types.VARCHAR);
+            
+            rs = statement.executeQuery();
+            
+            while(rs.next()) {
+                JOptionPane.showMessageDialog(null, rs.getString(1));
+            }
+            
+            
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ControleFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
@@ -264,7 +291,7 @@ public class ControleFrame extends javax.swing.JFrame
         //Gasto gasto = new Gasto();
         
         conn = MySqlConnect.ConnectDB();
-        String Sql = "insert into component(id, info, produto, marca, quantidade, valor, data_pagamento) values (?, ?, ?, ?, ?, ?, ?)";
+        String Sql = "INSERT INTO component(id, info, produto, marca, quantidade, valor, data_pagamento) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             pst = conn.prepareStatement(Sql);
             pst.setString(1, txtCodigo.getText());
