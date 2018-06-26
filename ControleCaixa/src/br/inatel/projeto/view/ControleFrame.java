@@ -27,6 +27,11 @@ public class ControleFrame extends javax.swing.JFrame
     Connection conn = null;
     PreparedStatement pst = null;
     ResultSet rs = null; 
+    
+    Connection conn1 = null;
+    PreparedStatement pst1 = null;
+    ResultSet rs1 = null; 
+   
    
     float total = 0;
 
@@ -240,35 +245,70 @@ public class ControleFrame extends javax.swing.JFrame
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    int returnID() {
+        int id = 0;
+        
+        boolean sucesso = false;
+        conn1 = MySqlConnect.ConnectDB();
+        String Sql1 = "SELECT * FROM system_user WHERE isLogged=1";
+        try {
+            // preparando a consulta
+            pst1 = conn1.prepareStatement(Sql1);
+            // executando a Query e retornando a tabela resultada da busca para RS
+            rs1 = pst1.executeQuery();
+            rs1.next();
+            id = rs1.getInt(1);
+            System.out.println(id);
+            sucesso = true;
+        } catch (SQLException e) {
+            System.out.println("Erro: Conexão Banco! :(");
+            sucesso = false;
+        } finally {
+            // independente se deu certo ou não, eu fecho tudo
+               try {
+                if (rs1 != null) {
+                    rs1.close();
+                }
+                if (pst1 != null) {
+                    pst1.close();
+                }
+                if (conn1 != null) {
+                    conn1.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro: Conexão não pode ser fechada! :(");
+            }
+        }
+        // se sucesso = false, mostra essa mensagem para o usuario
+         if (!sucesso) {
+                JOptionPane.showMessageDialog(null, "Componente não existe!", "Falha na busca", JOptionPane.ERROR_MESSAGE);
+         }
+        
+        
+        return id;
+    }
+    
     private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoActionPerformed
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
+        
         conn = MySqlConnect.ConnectDB();
-        
-        JOptionPane.showMessageDialog(null, "O Total = R$" + total);
-        this.dispose();
-        
-        CallableStatement statement;
+        //IS LOGGED----------------------------------------------------------------
+        String Sql1 = "UPDATE system_user SET isLogged=0 WHERE isLogged=1;";
         try {
-            statement = conn.prepareCall("call vvvvintepontoss(?)");
-            statement.setString(1, "danielsouza");
-            //statement.registerOutParameter(1, Types.VARCHAR);
-            
-            rs = statement.executeQuery();
-            
-            while(rs.next()) {
-                JOptionPane.showMessageDialog(null, rs.getString(1));
-            }
-            
-            
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(ControleFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            pst = conn.prepareStatement(Sql1);
+            pst.executeUpdate();
 
+            JOptionPane.showMessageDialog(null, "Usuário 'isLogged' alterado com sucesso!");
+
+        } catch(Exception e) {
+            System.out.println("Erro: Conexão Banco! (isLogged):(");
+        }
+        //END IS LOGGED------------------------------------------------------------
+        
+        this.dispose();
         
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
@@ -291,8 +331,9 @@ public class ControleFrame extends javax.swing.JFrame
         //Gasto gasto = new Gasto();
         
         conn = MySqlConnect.ConnectDB();
-        String Sql = "INSERT INTO component(id, info, produto, marca, quantidade, valor, data_pagamento) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String Sql = "INSERT INTO component(id, info, produto, marca, quantidade, valor, data_pagamento, system_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
+            
             pst = conn.prepareStatement(Sql);
             pst.setString(1, txtCodigo.getText());
             pst.setString(2, txtInformacoes.getText());
@@ -301,6 +342,7 @@ public class ControleFrame extends javax.swing.JFrame
             pst.setString(5, txtQuantidade.getText());
             pst.setString(6, txtValor.getText());
             pst.setString(7, txtPagamento.getText());
+            pst.setString(8,Integer.toString(returnID()));
             pst.executeUpdate();
             
             JOptionPane.showMessageDialog(null, "Componente adicionado com sucesso!");

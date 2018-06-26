@@ -50,6 +50,20 @@ public class LoginAction {
                     cfU.setVisible(true);
                 }
                 
+                //IS LOGGED----------------------------------------------------------------
+                String Sql1 = "UPDATE system_user SET isLogged=1 WHERE username=?;";
+                try {
+                    pst = conn.prepareStatement(Sql1);
+                    pst.setString(1, usuario);
+                    pst.executeUpdate();
+
+                    JOptionPane.showMessageDialog(null, "Usuário 'isLogged' com sucesso!");
+
+                } catch(Exception e) {
+                    System.out.println("Erro: Conexão Banco! (isLogged):(");
+                }
+                //END IS LOGGED------------------------------------------------------------
+                
                 sucesso = true;
             }
            
