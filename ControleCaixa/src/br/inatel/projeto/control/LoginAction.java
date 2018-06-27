@@ -56,9 +56,6 @@ public class LoginAction {
                     pst = conn.prepareStatement(Sql1);
                     pst.setString(1, usuario);
                     pst.executeUpdate();
-
-                    JOptionPane.showMessageDialog(null, "Usuário 'isLogged' com sucesso!");
-
                 } catch(Exception e) {
                     System.out.println("Erro: Conexão Banco! (isLogged):(");
                 }
