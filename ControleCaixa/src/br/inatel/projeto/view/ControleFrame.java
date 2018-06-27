@@ -300,9 +300,6 @@ public class ControleFrame extends javax.swing.JFrame
         try {
             pst = conn.prepareStatement(Sql1);
             pst.executeUpdate();
-
-            JOptionPane.showMessageDialog(null, "Usuário 'isLogged' alterado com sucesso!");
-
         } catch(Exception e) {
             System.out.println("Erro: Conexão Banco! (isLogged):(");
         }
