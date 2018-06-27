@@ -28,16 +28,17 @@ public class LoginAction {
     {
         
         boolean sucesso = false;
+        // Abrir conexão com o BD
         conn = MySqlConnect.ConnectDB();
         String Sql = "SELECT * FROM system_user WHERE username=? and passord=?";
         try {
-            // preparando a consulta
+            // Preparar consulta
             pst = conn.prepareStatement(Sql);
             pst.setString(1, usuario);
             pst.setString(2, senha);
-            // executando a Query e retornando a tabela resultada da busca para RS
+            // Executar a Query e retornar a tabela resultada da busca para RS
             rs = pst.executeQuery();
-            // enquanto tiver linha na tabela, rs.next() anda de uma em uma linha
+            // Enquanto houverem linhas na tabela, rs.next() anda de 1 em 1 linha
             while (rs.next()) {
                 JOptionPane.showMessageDialog(null, "Bem-vindo!");
                 if(rs.getInt(5) == 0) {
@@ -50,25 +51,26 @@ public class LoginAction {
                     cfU.setVisible(true);
                 }
                 
-                //IS LOGGED----------------------------------------------------------------
-                String Sql1 = "UPDATE system_user SET isLogged=1 WHERE username=?;";
+                //IS LOGGED-----------------------------------------------------
+                String Sql1 =
+                        "UPDATE system_user SET isLogged=1 WHERE username=?;";
                 try {
                     pst = conn.prepareStatement(Sql1);
                     pst.setString(1, usuario);
                     pst.executeUpdate();
                 } catch(Exception e) {
-                    System.out.println("Erro: Conexão Banco! (isLogged):(");
+                    System.out.println("Erro: Conexão Banco! (isLogged)");
                 }
-                //END IS LOGGED------------------------------------------------------------
+                //END IS LOGGED-------------------------------------------------
                 
                 sucesso = true;
             }
            
         } catch (SQLException e) {
-            System.out.println("Erro: Conexão Banco! :(");
+            System.out.println("Erro: Conexão Banco!");
             sucesso = false;
         } finally {
-            // independente se deu certo ou não, eu fecho tudo
+            // Fechar RS, PST e CONN
                try {
                 if (rs != null) {
                     rs.close();
@@ -80,12 +82,12 @@ public class LoginAction {
                     conn.close();
                 }
             } catch (SQLException ex) {
-                System.out.println("Erro: Conexão não pode ser fechada! :(");
+                System.out.println("Erro: Conexão não pode ser fechada!");
             }
         }
-        // se sucesso = false, mostra essa mensagem para o usuario
+        // Se sucesso = false, mostrar essa mensagem para o usuario
          if (!sucesso) {
-                JOptionPane.showMessageDialog(null, "Invalid username or password", "Access Denied", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Usuário ou senha inválido(a)!", "Acesso Negado", JOptionPane.ERROR_MESSAGE);
          }
         
     }

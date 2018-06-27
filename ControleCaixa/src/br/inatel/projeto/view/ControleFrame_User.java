@@ -15,7 +15,7 @@ import java.sql.*;
 
 /**
  *
- * @author Daniel / Olindo
+ * @author Daniel
  */
 public class ControleFrame_User extends javax.swing.JFrame
 {
@@ -23,8 +23,6 @@ public class ControleFrame_User extends javax.swing.JFrame
     Connection conn = null;
     PreparedStatement pst = null;
     ResultSet rs = null; 
-   
-    float total = 0;
 
     public ControleFrame_User()
     {
@@ -194,8 +192,32 @@ public class ControleFrame_User extends javax.swing.JFrame
     }//GEN-LAST:event_txtCodigoActionPerformed
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
-        JOptionPane.showMessageDialog(null, "O Total = R$" + total);
+
+        conn = MySqlConnect.ConnectDB();
+        //IS LOGGED----------------------------------------------------------------
+        String Sql1 = "UPDATE system_user SET isLogged=0 WHERE isLogged=1;";
+        try {
+            pst = conn.prepareStatement(Sql1);
+            pst.executeUpdate();
+        } catch(Exception e) {
+            System.out.println("Erro: Conexão Banco! (isLogged)");
+        } finally {
+            // Fechar PST e CONN
+               try {
+                if (pst != null) {
+                    pst.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro: Conexão não pode ser fechada!");
+            } 
+        }
+        //END IS LOGGED------------------------------------------------------------
+        
         this.dispose();
+        
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
     private void txtValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValorActionPerformed

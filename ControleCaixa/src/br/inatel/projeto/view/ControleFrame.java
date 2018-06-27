@@ -19,7 +19,8 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Daniel / Olindo
+ * @author Daniel
+ * 
  */
 public class ControleFrame extends javax.swing.JFrame
 {
@@ -252,19 +253,18 @@ public class ControleFrame extends javax.swing.JFrame
         conn1 = MySqlConnect.ConnectDB();
         String Sql1 = "SELECT * FROM system_user WHERE isLogged=1";
         try {
-            // preparando a consulta
+            // Preparar a consulta
             pst1 = conn1.prepareStatement(Sql1);
-            // executando a Query e retornando a tabela resultada da busca para RS
+            // Executar a Query e retornar a tabela resultada da busca para RS
             rs1 = pst1.executeQuery();
             rs1.next();
             id = rs1.getInt(1);
             System.out.println(id);
             sucesso = true;
         } catch (SQLException e) {
-            System.out.println("Erro: Conexão Banco! :(");
+            System.out.println("Erro: Conexão Banco!");
             sucesso = false;
         } finally {
-            // independente se deu certo ou não, eu fecho tudo
                try {
                 if (rs1 != null) {
                     rs1.close();
@@ -276,10 +276,10 @@ public class ControleFrame extends javax.swing.JFrame
                     conn1.close();
                 }
             } catch (SQLException ex) {
-                System.out.println("Erro: Conexão não pode ser fechada! :(");
+                System.out.println("Erro: Conexão não pode ser fechada!");
             }
         }
-        // se sucesso = false, mostra essa mensagem para o usuario
+        // Se sucesso = false, mostrar essa mensagem para o usuario
          if (!sucesso) {
                 JOptionPane.showMessageDialog(null, "Componente não existe!", "Falha na busca", JOptionPane.ERROR_MESSAGE);
          }
@@ -301,7 +301,19 @@ public class ControleFrame extends javax.swing.JFrame
             pst = conn.prepareStatement(Sql1);
             pst.executeUpdate();
         } catch(Exception e) {
-            System.out.println("Erro: Conexão Banco! (isLogged):(");
+            System.out.println("Erro: Conexão Banco! (isLogged)");
+        } finally {
+            // Fechar PST e CONN
+               try {
+                if (pst != null) {
+                    pst.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro: Conexão não pode ser fechada!");
+            } 
         }
         //END IS LOGGED------------------------------------------------------------
         
@@ -325,8 +337,7 @@ public class ControleFrame extends javax.swing.JFrame
     }//GEN-LAST:event_txtValorActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        //Gasto gasto = new Gasto();
-        
+
         conn = MySqlConnect.ConnectDB();
         String Sql = "INSERT INTO component(id, info, produto, marca, quantidade, valor, data_pagamento, system_user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
@@ -346,6 +357,18 @@ public class ControleFrame extends javax.swing.JFrame
             
         } catch(Exception e) {
             JOptionPane.showMessageDialog(null, e);
+        } finally {
+            // Fechar PST e CONN
+               try {
+                if (pst != null) {
+                    pst.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro: Conexão não pode ser fechada!");
+            }
         }
         
         txtCodigo.setText("");
@@ -378,7 +401,19 @@ public class ControleFrame extends javax.swing.JFrame
             
         } catch(Exception e) {
             JOptionPane.showMessageDialog(null, e);
-        }
+        } finally {
+            // Fechar PST e CONN
+               try {
+                if (pst != null) {
+                    pst.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro: Conexão não pode ser fechada!");
+            }
+         }
 
     }//GEN-LAST:event_btnEditarActionPerformed
 
@@ -396,6 +431,18 @@ public class ControleFrame extends javax.swing.JFrame
             
         } catch(Exception e) {
             JOptionPane.showMessageDialog(null, e);
+        } finally {
+            // Fechar PST e CONN
+               try {
+                if (pst != null) {
+                    pst.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro: Conexão não pode ser fechada!");
+            }
         }
 
     }//GEN-LAST:event_btnExcluirActionPerformed
@@ -425,10 +472,9 @@ public class ControleFrame extends javax.swing.JFrame
             }
            
         } catch (SQLException e) {
-            System.out.println("Erro: Conexão Banco! :(");
+            System.out.println("Erro: Conexão Banco!");
             sucesso = false;
         } finally {
-            // independente se deu certo ou não, eu fecho tudo
                try {
                 if (rs != null) {
                     rs.close();
@@ -440,7 +486,7 @@ public class ControleFrame extends javax.swing.JFrame
                     conn.close();
                 }
             } catch (SQLException ex) {
-                System.out.println("Erro: Conexão não pode ser fechada! :(");
+                System.out.println("Erro: Conexão não pode ser fechada!");
             }
         }
         // se sucesso = false, mostra essa mensagem para o usuario

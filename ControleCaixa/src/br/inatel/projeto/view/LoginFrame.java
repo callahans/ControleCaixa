@@ -17,7 +17,7 @@ import javax.swing.*;
 
 /**
  *
- * @author Daniel / Olindo
+ * @author Daniel
  */
 public class LoginFrame extends javax.swing.JFrame {
 

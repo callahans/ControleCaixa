@@ -43,7 +43,6 @@
                               <Component id="btnLogin" min="-2" pref="92" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnCancelar" min="-2" pref="89" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                           </Group>
                           <Component id="txtPassword" min="-2" pref="192" max="-2" attributes="0"/>
                       </Group>
